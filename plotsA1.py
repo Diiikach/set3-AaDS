@@ -13,24 +13,25 @@ def plot_bar_chart(
     values,
     title="Сравнение значения площади",
     xlabel="K (количество бросков)",
-    ylabel="S (площадь)"
+    ylabel="S (площадь)",
+    step=10
 ):
     fig, ax = plt.subplots(figsize=(10, 10), dpi=100)
 
     x = np.arange(len(labels))
 
-    # Построение графика
     ax.bar(x, values, color=None, alpha=0.9)
 
-    # Подписи осей
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
     ax.set_title(title, fontsize=16)
 
-    ax.set_xticks([])
+    tick_positions = x[::step]
+    tick_labels = [labels[i] for i in tick_positions]
 
-    # Сетка только по Y
-    ax.set_xticks(np.arange(0, len(labels), 10))
+    ax.set_xticks(tick_positions)
+    ax.set_xticklabels(tick_labels, rotation=25, ha="right")
+
     ax.grid(axis="y", alpha=0.4)
 
     plt.tight_layout()
@@ -48,8 +49,8 @@ def test(k: int):
     with open("ans.txt", "r") as file:
         return float(file.read())
 
+
 kvalues = [i for i in range(100, 100001, 500)]
 results = [test(i) for i in kvalues]
 
-
-plot_bar_chart(kvalues, results)
+plot_bar_chart(kvalues, results, step=10)
